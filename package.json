@@ -3,15 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run start", 
-    "backend": "nodemon app.js", 
-    "frontend": "npm run start --prefix frontend", 
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\"" 
+    "start": "npm run start",
+    "backend": "nodemon ./bin/www 1337",
+    "frontend": "npm run start --prefix frontend",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.15.5",
@@ -22,5 +23,9 @@
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.4.5"
+  },
+  "devDependencies": {
+    "connect-flash": "^0.1.1",
+    "flash": "^1.1.0"
   }
 }

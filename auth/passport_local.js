@@ -1,4 +1,4 @@
-var localStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var User = require('../db/User')
 
 
@@ -10,9 +10,14 @@ module.exports = function (passport) {
         done(null, user)
     })
 
-    passport.use(new localStrategy(function (username, password, done) {
+    passport.use(new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+        passReqToCallback: false,
+        session: true
+      }, function (username, password, done) {
         User.findOne({
-            username: username
+            email: username
         }, function (err, doc) {
             if (err) {
                 done(err)
@@ -22,7 +27,7 @@ module.exports = function (passport) {
                     if (valid) {
                         // do not add password hash to session
                         done(null, {
-                            username: doc.username,
+                            email: doc.email,
                             id: doc._id
                         })
                     } else {
@@ -33,5 +38,5 @@ module.exports = function (passport) {
                 }
             }
         })
-    }))
+}))
 }

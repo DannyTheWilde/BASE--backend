@@ -10,10 +10,10 @@ var passportFacebook = require('../auth/passport_fb');
 module.exports = function (passport) {
     router.post('/signup', function (req, res) {
         var body = req.body,
-            username = body.username,
+            email = body.email,
             password = body.password;
         User.findOne({
-            username: username
+            email: email
         }, function (err, doc) {
             if (err) {
                 res.status(500).send('error occured')
@@ -22,7 +22,7 @@ module.exports = function (passport) {
                     res.status(500).send('Username already exists')
                 } else {
                     var record = new User()
-                    record.username = username;
+                    record.email = email;
                     record.password = record.hashPassword(password)
                     record.save(function (err, user) {
                         if (err) {
@@ -45,8 +45,9 @@ module.exports = function (passport) {
 
 
     router.post('/login', passport.authenticate('local', {
-        failureRedirect: '/login',
-        successRedirect: '/profile',
+        failureRedirect: '/',
+        failureFlash: true,
+        successRedirect: '/profile'
     }), function (req, res) {
         res.send('hey')
     })
